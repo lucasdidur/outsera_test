@@ -21,7 +21,7 @@ void main() {
   });
 
   test('Fetch movies by year', () async {
-    var movies = await apiService.getMoviesByYear(year: 1980);
-    expect(movies, isNotEmpty);
+    var response = await apiService.getMoviesByYear(year: 1980);
+    expect(response.content, isNotEmpty);
   });
 }
