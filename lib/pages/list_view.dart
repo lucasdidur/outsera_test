@@ -83,7 +83,7 @@ class _ListViewPageState extends State<ListViewPage> {
                 ),
               ),
               FutureBuilder<Response>(
-                future: apiService.getMoviesByYear(
+                future: apiService.getMovies(
                     year: year,
                     winner: winner,
                     page: _currentPage - 1,

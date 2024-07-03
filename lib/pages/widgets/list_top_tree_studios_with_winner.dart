@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../models/response_win_count.dart';
 import '../../services/api_service.dart';
 
 class ListTopTreeStudiosWithWinner extends StatelessWidget {
@@ -20,7 +21,7 @@ class ListTopTreeStudiosWithWinner extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text('Top 3 studios with winners', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              FutureBuilder<List<dynamic>>(
+              FutureBuilder<List<Studio>>(
                 future: apiService.getTopStudiosWithWinners(limit: 3),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -37,8 +38,8 @@ class ListTopTreeStudiosWithWinner extends StatelessWidget {
                         ],
                         rows: snapshot.data!.map((studio) {
                           return DataRow(cells: [
-                            DataCell(Text(studio['name'])),
-                            DataCell(Text(studio['winCount'].toString())),
+                            DataCell(Text(studio.name)),
+                            DataCell(Text(studio.winCount.toString())),
                           ]);
                         }).toList());
                   }

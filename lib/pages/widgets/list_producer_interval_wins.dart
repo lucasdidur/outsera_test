@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../models/response_interval_wins.dart';
 import '../../services/api_service.dart';
 
 class ListProducerIntervalWins extends StatelessWidget {
@@ -21,7 +22,7 @@ class ListProducerIntervalWins extends StatelessWidget {
             children: [
               Text('Producers with longest and shortest interval between wins',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              FutureBuilder<Map<String, dynamic>>(
+              FutureBuilder<ResponseIntervalWins>(
                 future: apiService.getWinIntervalsForProducers(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -50,12 +51,12 @@ class ListProducerIntervalWins extends StatelessWidget {
                                   DataColumn(
                                       label: Text('Following Year', style: TextStyle(fontWeight: FontWeight.bold))),
                                 ],
-                                rows: snapshot.data!['max'].map<DataRow>((producer) {
+                                rows: snapshot.data!.max.map<DataRow>((producer) {
                                   return DataRow(cells: [
-                                    DataCell(Text(producer['producer'])),
-                                    DataCell(Text(producer['interval'].toString())),
-                                    DataCell(Text(producer['previousWin'].toString())),
-                                    DataCell(Text(producer['followingWin'].toString())),
+                                    DataCell(Text(producer.producer)),
+                                    DataCell(Text(producer.interval.toString())),
+                                    DataCell(Text(producer.previousWin.toString())),
+                                    DataCell(Text(producer.followingWin.toString())),
                                   ]);
                                 }).toList()),
                             Text('Minimum'),
@@ -66,12 +67,12 @@ class ListProducerIntervalWins extends StatelessWidget {
                                   DataColumn(label: Text('Previous Year')),
                                   DataColumn(label: Text('Following Year')),
                                 ],
-                                rows: snapshot.data!['min'].map<DataRow>((producer) {
+                                rows: snapshot.data!.min.map<DataRow>((producer) {
                                   return DataRow(cells: [
-                                    DataCell(Text(producer['producer'])),
-                                    DataCell(Text(producer['interval'].toString())),
-                                    DataCell(Text(producer['previousWin'].toString())),
-                                    DataCell(Text(producer['followingWin'].toString())),
+                                    DataCell(Text(producer.producer)),
+                                    DataCell(Text(producer.interval.toString())),
+                                    DataCell(Text(producer.previousWin.toString())),
+                                    DataCell(Text(producer.followingWin.toString())),
                                   ]);
                                 }).toList()),
                           ],

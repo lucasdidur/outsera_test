@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:outsera_filme/models/response_year_multiple_wins.dart';
 
 import '../../services/api_service.dart';
 
@@ -20,7 +21,7 @@ class ListMovieMultipleWinners extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text('List years with multiple winners', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              FutureBuilder<List<dynamic>>(
+              FutureBuilder<List<Year>>(
                 future: apiService.getYearsWithMultipleWinners(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -39,8 +40,8 @@ class ListMovieMultipleWinners extends StatelessWidget {
                         ],
                         rows: data.map((year) {
                           return DataRow(cells: [
-                            DataCell(Text(year['year'].toString())),
-                            DataCell(Text(year['winnerCount'].toString())),
+                            DataCell(Text(year.year.toString())),
+                            DataCell(Text(year.winnerCount.toString())),
                           ]);
                         }).toList());
                   } else {

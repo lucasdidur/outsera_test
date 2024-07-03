@@ -16,12 +16,19 @@ void main() {
 
   test('Fetch win intervals for producers', () async {
     var intervals = await apiService.getWinIntervalsForProducers();
-    expect(intervals['max'], isNotEmpty);
-    expect(intervals['min'], isNotEmpty);
+    expect(intervals.max, isNotEmpty);
+    expect(intervals.min, isNotEmpty);
   });
 
   test('Fetch movies by year', () async {
-    var response = await apiService.getMoviesByYear(year: 1980);
+    var response = await apiService.getMovies(year: 1980);
     expect(response.content, isNotEmpty);
+    expect(response.content.length, greaterThan(1));
+  });
+
+  test('Fetch movies by year and winners', () async {
+    var response = await apiService.getMovies(year: 1980, winner: true);
+    expect(response.content, isNotEmpty);
+    expect(response.content.length, 1);
   });
 }

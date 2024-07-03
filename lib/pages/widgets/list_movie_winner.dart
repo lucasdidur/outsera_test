@@ -42,7 +42,7 @@ class _ListMovieWinnerState extends State<ListMovieWinner> {
                 },
               ),
               FutureBuilder<Response>(
-                future: apiService.getMoviesByYear(year: year, winner: true, size: 3), // Change year as needed
+                future: apiService.getMovies(year: year, winner: true, size: 3), // Change year as needed
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
