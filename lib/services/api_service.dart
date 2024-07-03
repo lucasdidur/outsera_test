@@ -29,22 +29,22 @@ class ApiService {
     }
   }
 
-  /// Return the studios with the most wins
   /// Retrieves a list of studios with the highest number of wins.
   ///
   /// If a `limit` is provided, the returned list will be truncated to contain
   /// only up to `limit` number of studios. If no `limit` is provided, the
   /// complete list of studios will be returned.
   ///
-  /// Throws an [Exception] if the HTTP request fails.
-  ///
   /// Parameters:
-  /// - [limit] (int?): An optional parameter to limit the number of studios
+  /// - `limit` (int?, optional): An optional parameter to limit the number of studios
   ///   returned in the list. If null, all studios are returned.
   ///
   /// Returns:
-  /// A [Future] that completes with a [List<Studio>] containing the top studios
-  /// with the most wins.
+  ///   A `Future` that completes with a `List<Studio>` containing the top studios
+  ///   with the most wins.
+  ///
+  /// Throws:
+  ///   An [Exception] if the HTTP request fails.
   ///
   Future<List<Studio>> getTopStudiosWithWinners({int? limit}) async {
     final response = await http.get(Uri.parse('$baseUrl?projection=studios-with-win-count'));
@@ -62,10 +62,12 @@ class ApiService {
 
   /// Fetches and returns the producers with the largest and smallest interval between victories.
   ///
-  /// Throws an [Exception] if the request fails.
+  /// Returns:
+  ///   A `Future` that resolves to a `ResponseIntervalWins` object containing the data
+  ///   of the producers' win intervals.
   ///
-  /// Returns a [Future] that resolves to a [ResponseIntervalWins] object containing the data
-  /// of the producers' win intervals.
+  /// Throws:
+  ///   An [Exception] if the HTTP request fails.
   ///
   Future<ResponseIntervalWins> getWinIntervalsForProducers() async {
     final response = await http.get(Uri.parse('$baseUrl?projection=max-min-win-interval-for-producers'));
@@ -85,10 +87,10 @@ class ApiService {
   /// - `size` (int, optional): The number of movies per page. Defaults to 10.
   ///
   /// Returns:
-  /// - `Future<Response>`: A future that resolves to a `Response` object containing the list of movies.
+  ///   A `Future` that resolves to a `Response` object containing the list of movies.
   ///
   /// Throws:
-  /// - `Exception`: If the request fails, an exception is thrown with the message 'Failed to load data'.
+  ///   An [Exception] if the request fails.
   ///
   Future<Response> getMovies({
     int? year,

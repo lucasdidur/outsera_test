@@ -101,6 +101,8 @@ class _ListViewPageState extends State<ListViewPage> {
                     return Column(
                       children: [
                         DataTable(
+                            dataRowMaxHeight: double.infinity, // Code to be changed.
+                            dataRowMinHeight: 60,
                             columns: [
                               DataColumn(label: Text('Id', style: TextStyle(fontWeight: FontWeight.bold))),
                               DataColumn(label: Text('Year', style: TextStyle(fontWeight: FontWeight.bold))),
@@ -108,12 +110,14 @@ class _ListViewPageState extends State<ListViewPage> {
                               DataColumn(label: Text('Winner', style: TextStyle(fontWeight: FontWeight.bold))),
                             ],
                             rows: content.map<DataRow>((movie) {
-                              return DataRow(cells: [
-                                DataCell(Text(movie.id.toString())),
-                                DataCell(Text(movie.year.toString())),
-                                DataCell(Text(movie.title)),
-                                DataCell(Text(movie.winner ? 'Yes' : 'No')),
-                              ]);
+                              return DataRow(
+                                cells: [
+                                  DataCell(Text(movie.id.toString())),
+                                  DataCell(Text(movie.year.toString())),
+                                  DataCell(Text(movie.title)),
+                                  DataCell(Text(movie.winner ? 'Yes' : 'No')),
+                                ],
+                              );
                             }).toList()),
                         Pager(
                           numberButtonSelectedColor: Theme.of(context).primaryColor,

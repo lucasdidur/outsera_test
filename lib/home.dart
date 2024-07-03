@@ -11,8 +11,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _indiceAtual = 0;
-  final List<Widget> _telas = [
+  int _currentIndex = 0;
+
+  final List<Widget> _screens = [
     Dashboard(),
     ListViewPage(),
   ];
@@ -20,9 +21,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _telas[_indiceAtual],
+      body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _indiceAtual,
+        currentIndex: _currentIndex,
         onTap: onTabTapped,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: 'Dashboard'),
@@ -34,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void onTabTapped(int index) {
     setState(() {
-      _indiceAtual = index;
+      _currentIndex = index;
     });
   }
 }
