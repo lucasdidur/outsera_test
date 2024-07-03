@@ -32,46 +32,55 @@ class _ListViewPageState extends State<ListViewPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextField(
-                decoration: InputDecoration(
-                  labelText: 'Search by year',
-                  suffixIcon: Icon(Icons.search),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: 'Search by year',
+                          suffixIcon: Icon(Icons.search),
+                        ),
+                        keyboardType: TextInputType.number,
+                        onSubmitted: (value) {
+                          setState(() {
+                            year = int.tryParse(value);
+                          });
+                        },
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Search by winner',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          DropdownButton<bool?>(
+                            value: winner,
+                            items: [null, true, false].map((bool? value) {
+                              var title = value.toString();
+                              if (value == null) {
+                                title = '';
+                              } else {
+                                title = value ? 'Yes' : 'No';
+                              }
+                              return DropdownMenuItem<bool?>(
+                                value: value,
+                                child: Text(title),
+                              );
+                            }).toList(),
+                            onChanged: (bool? newValue) {
+                              setState(() {
+                                winner = newValue;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-                keyboardType: TextInputType.number,
-                onSubmitted: (value) {
-                  setState(() {
-                    year = int.tryParse(value);
-                  });
-                },
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Search by winner',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  DropdownButton<bool?>(
-                    value: winner,
-                    items: [null, true, false].map((bool? value) {
-                      var title = value.toString();
-                      if (value == null) {
-                        title = '';
-                      } else {
-                        title = value ? 'Yes' : 'No';
-                      }
-                      return DropdownMenuItem<bool?>(
-                        value: value,
-                        child: Text(title),
-                      );
-                    }).toList(),
-                    onChanged: (bool? newValue) {
-                      setState(() {
-                        winner = newValue;
-                      });
-                    },
-                  ),
-                ],
               ),
               FutureBuilder<Response>(
                 future: apiService.getMoviesByYear(
@@ -81,20 +90,22 @@ class _ListViewPageState extends State<ListViewPage> {
                     size: _currentItemsPerPage), // Change year as needed
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
-                  } else {
+                  } else if (snapshot.hasData && snapshot.data!.content.isNotEmpty) {
                     var content = snapshot.data!.content.map((e) => Movie.fromJson(e)).toList();
 
                     return Column(
                       children: [
                         DataTable(
                             columns: [
-                              DataColumn(label: Text('Id')),
-                              DataColumn(label: Text('Year')),
-                              DataColumn(label: Text('Title')),
-                              DataColumn(label: Text('Winner')),
+                              DataColumn(label: Text('Id', style: TextStyle(fontWeight: FontWeight.bold))),
+                              DataColumn(label: Text('Year', style: TextStyle(fontWeight: FontWeight.bold))),
+                              DataColumn(label: Text('Title', style: TextStyle(fontWeight: FontWeight.bold))),
+                              DataColumn(label: Text('Winner', style: TextStyle(fontWeight: FontWeight.bold))),
                             ],
                             rows: content.map<DataRow>((movie) {
                               return DataRow(cells: [
@@ -105,6 +116,7 @@ class _ListViewPageState extends State<ListViewPage> {
                               ]);
                             }).toList()),
                         Pager(
+                          numberButtonSelectedColor: Theme.of(context).primaryColor,
                           itemsPerPageList: [5, 10, 50, 100],
                           showItemsPerPage: true,
                           currentItemsPerPage: _currentItemsPerPage,
@@ -122,6 +134,13 @@ class _ListViewPageState extends State<ListViewPage> {
                           },
                         ),
                       ],
+                    );
+                  } else {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Text('No movie found'),
+                      ),
                     );
                   }
                 },

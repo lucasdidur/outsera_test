@@ -9,7 +9,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _indiceAtual = 1;
+  int _indiceAtual = 0;
   final List<Widget> _telas = [
     Dashboard(),
     ListViewPage(),
